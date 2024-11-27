@@ -1,0 +1,23 @@
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    working_dir: /app
+    environment:
+      - WATCHPACK_POLLING=true  # Fixes file watching in Docker
+      - FAST_REFRESH=true
+    command: npm start
+
+  backend:
+    build: ./backend
+    ports:
+      - "3030:3030"
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    working_dir: /app
+    command: npm run dev
