@@ -7,6 +7,9 @@ services:
       - ./frontend:/app
       - /app/node_modules
     working_dir: /app
+    environment:
+      - WATCHPACK_POLLING=true  # Fixes file watching in Docker
+      - FAST_REFRESH=true
     command: npm start
 
   backend:

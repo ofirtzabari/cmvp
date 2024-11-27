@@ -15,4 +15,4 @@ COPY . .
 EXPOSE 3030
 
 # Start the application
-#CMD ["npx", "nodemon", "server.js"]
+#CMD ["npx", "nodemon", "server.js"]git
