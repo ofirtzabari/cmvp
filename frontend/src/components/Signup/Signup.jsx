@@ -137,6 +137,7 @@ const Signup = () => {
               <button
                 typeof="submit"
                 className="group relative w-full h-[40px] flex justify-center py-2 px-4 border border-transparent text-sm font-semibold rounded-md text-black bg-purple-400 hover:bg-purple-300"
+                onClick={handleSubmit}
               >
                 submit
               </button>

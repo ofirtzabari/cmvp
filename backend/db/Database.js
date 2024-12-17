@@ -5,8 +5,6 @@ dotenv.config({
     path: 'config/.env'
   });
 
-console.log('MONGO_URL:', process.env.DB_URL);
-
 const connectDatabase = () => {
   mongoose.connect(process.env.DB_URL, {
     useNewUrlParser: true,
