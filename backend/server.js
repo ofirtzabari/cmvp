@@ -5,14 +5,17 @@ const connectDatabase = require('./db/Database');
 const ErrorHandler = require('./middleware/error');
 const cookieParser = require('cookie-parser');
 const bodyparser = require('body-parser');
-const fileUpload = require('express-fileupload');
+
+// Routes
+const user = require('./controller/user');
+app.use("api/v2/user", user);
 
 // Middleware
 app.use(ErrorHandler);
 app.use(express.json());
 app.use(cookieParser());
+app.use("/",express.static("uploads"));
 app.use(bodyparser.urlencoded({extended: true}));
-app.use(fileUpload({useTempFiles: true}));
 
 // Setting up config file
 dotenv.config({
