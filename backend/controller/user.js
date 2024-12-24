@@ -4,6 +4,7 @@ const User = require("../model/user");
 const router = express.Router();
 const { upload } = require("../multer");
 const ErrorHandler = require("../utils/errorHandler");
+const fs = require("fs");
 
 router.post("/create-user", upload.single("file"), async (req, res, next) => {
   const { name, email, password } = req.body;
@@ -11,9 +12,10 @@ router.post("/create-user", upload.single("file"), async (req, res, next) => {
   const userEmail = await User.findOne({ email });
 
   if (userEmail) {
-    return next(new ErrorHandler("User already exists", 400));
+    //TODO: delete the file if user already exists
+    return next(new ErrorHandler(400, "User already exists"));
   }
-// need to fix this
+// TODO: uncomment the following code and make it work
 //   const fileName = req.file.filename;
 //   const fileURL = path.join(fileName);
 //   const avatar = fileURL;
