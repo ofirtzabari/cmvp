@@ -10,6 +10,9 @@ services:
     environment:
       - WATCHPACK_POLLING=true  # Fixes file watching in Docker
       - FAST_REFRESH=true
+      - HOST=0.0.0.0
+    networks:
+      - app-network
     command: npm start
 
   backend:
@@ -20,4 +23,12 @@ services:
       - ./backend:/app
       - /app/node_modules
     working_dir: /app
+    environment:
+      - HOST=0.0.0.0
+    networks:
+      - app-network
     command: npm run dev
+
+networks:
+  app-network:
+    driver: bridge

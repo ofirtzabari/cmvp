@@ -3,6 +3,7 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import styles from "../../styles/styles.js";
 import { Link } from "react-router-dom";
 import { RxAvatar } from "react-icons/rx";
+import axios from "axios";
 
 const Signup = () => {
   const [name, setName] = useState("");
@@ -13,7 +14,20 @@ const Signup = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("dgdsgsgs");
+    const config = { Headers: { "Content-Type": "multipart/form-data" } };
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("email", email);
+    formData.append("password", password);
+    formData.append("file", avatar);
+    axios
+      .post(process.env.REACT_APP_SERVER_URL + "/user/create-user", formData, config)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const handleFileInputChange = (e) => {
@@ -29,7 +43,7 @@ const Signup = () => {
         </h2>
         <div className=" mt-8 sm:mx-auto sm:w-full sm:max-w-lg">
           <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-            <form className="space-y-6">
+            <form className="space-y-6" onSubmit={handleSubmit}>
               <div>
                 <label
                   htmlFor="Full name"
@@ -137,7 +151,6 @@ const Signup = () => {
               <button
                 typeof="submit"
                 className="group relative w-full h-[40px] flex justify-center py-2 px-4 border border-transparent text-sm font-semibold rounded-md text-black bg-purple-400 hover:bg-purple-300"
-                onClick={handleSubmit}
               >
                 submit
               </button>
