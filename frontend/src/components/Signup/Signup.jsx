@@ -23,7 +23,7 @@ const Signup = () => {
     axios
       .post(process.env.REACT_APP_SERVER_URL + "/user/create-user", formData, config)
       .then((res) => {
-        console.log(res);
+        alert(res.message);
       })
       .catch((err) => {
         console.log(err);
