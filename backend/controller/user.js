@@ -22,39 +22,38 @@ router.post("/create-user", upload.single("file"), async (req, res, next) => {
     res.status(400).json({ message: "User already exists" });
     return next(new ErrorHandler("User already exists", 400));
   }
-// TODO: uncomment the following code and make it work
-//   const fileName = req.file.filename;
-//   const fileURL = path.join(fileName);
-//   const avatar = fileURL;
+  // TODO: uncomment the following code and make it work
+  //   const fileName = req.file.filename;
+  //   const fileURL = path.join(fileName);
+  //   const avatar = fileURL;
 
   const user = new User({
     name,
     email,
-    password
+    password,
   });
 
   const activationToken = createActivationToken(user);
   const activationURL = `${process.env.CLIENT_URL}/activation/${activationToken}`;
 
-  try{
+  try {
     await sendMail({
       email,
       subject: "Account Activation",
-      message: `Hello, pls activate your account: ${activationURL}`,
+      message: `Hello ${name}, please activate your account: ${activationURL}`,
     });
     res.status(201).json({
-      message: "User created successfully, pls check your email to activate your account",
+      message:
+        "User created successfully, please check your email to activate your account",
     });
-  }
-  catch (error) {
+  } catch (error) {
     return next(new ErrorHandler(error.message, 400));
   }
-  
 });
 
 //create activation token
 const createActivationToken = (user) => {
-  return jwt.sign({user} , process.env.JWT_ACCOUNT_ACTIVATION, {
+  return jwt.sign({ user }, process.env.JWT_ACCOUNT_ACTIVATION, {
     expiresIn: "5m",
   });
 };
@@ -65,38 +64,57 @@ router.post("/activation", async (req, res, next) => {
   if (!activation_token) {
     return next(new ErrorHandler("Invalid token", 400));
   }
-  try{
-    const decoded = jwt.verify(activation_token, process.env.JWT_ACCOUNT_ACTIVATION, async (err, decoded) => {
-      if (err) {
-        return next(new ErrorHandler("Expired token", 400));
+  try {
+    const decoded = jwt.verify(
+      activation_token,
+      process.env.JWT_ACCOUNT_ACTIVATION,
+      async (err, decoded) => {
+        if (err) {
+          return next(new ErrorHandler("Expired token", 400));
+        }
+        const { name, email, password } = decoded.user;
+        if (!name || !email || !password) {
+          return next(new ErrorHandler("Invalid token data", 400));
+        }
+
+        let user = await User.findOne({ email });
+        if (user) {
+          return next(new ErrorHandler("User already exists", 400));
+        }
+
+        user = new User({
+          name,
+          email,
+          password,
+        });
+        await user.save();
+
+        sendToken(user, 201, res);
       }
-      const { name, email, password } = decoded.user;
-      if (!name || !email || !password) {
-        return next(new ErrorHandler("Invalid token data", 400));
-      }
-
-      let user = await User.findOne({ email });
-      if (user) {
-        return next(new ErrorHandler("User already exists", 400));
-      }
-
-    user = new User({
-        name,
-        email,
-        password,
-      });
-      await user.save();
-
-      sendToken(user, 201, res);
-
-    });
-  }
-  catch (error) {
+    );
+  } catch (error) {
     return next(new ErrorHandler("Expired token", 400));
   }
-
 });
 
+router.post("/login-user", async (req, res, next) => {
+  console.log("login user");
+  const { email, password } = req.body;
+  console.log(email, password);
+  if (!email || !password) {
+    return next(new ErrorHandler("Please enter email and password", 400));
+  }
 
+  const user = await User.findOne({ email }).select("+password");
+  if (!user) {
+    return next(new ErrorHandler("Invalid email or password", 401));
+  }
+
+  const isPasswordMatched = await user.comparePassword(password);
+  if (!isPasswordMatched) {
+    return next(new ErrorHandler("Invalid email or password", 401));
+  }
+  sendToken(user, 200, res);
+});
 
 module.exports = router;

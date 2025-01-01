@@ -14,9 +14,10 @@ app.use((req, res, next) => {
 
 // Middleware
 app.use(cors({
-  origin: "*", // או להחליף לכתובת מדויקת כמו http://localhost:3000
+  origin: process.env.CLIENT_URL,
   methods: ["GET", "POST"],
   allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true
 }));
 app.use(ErrorHandler);
 app.use(express.json());

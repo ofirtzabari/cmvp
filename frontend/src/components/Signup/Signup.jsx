@@ -24,10 +24,13 @@ const Signup = () => {
     axios
       .post(process.env.REACT_APP_SERVER_URL + "/user/create-user", formData, config)
       .then((res) => {
-        alert(res.message);
+        toast.success(res.data.message);
+        setName("");
+        setEmail("");
+        setPassword("");
+        setAvatar(null);
       })
       .catch((err) => {
-        console.log(err);
         toast.error(err.response.data.message);
       });
   };
