@@ -13,7 +13,11 @@ app.use((req, res, next) => {
 });
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: "*", // או להחליף לכתובת מדויקת כמו http://localhost:3000
+  methods: ["GET", "POST"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+}));
 app.use(ErrorHandler);
 app.use(express.json());
 app.use(cookieParser());

@@ -10,6 +10,7 @@ const jwt = require("jsonwebtoken");
 const { send } = require("process");
 const sendMail = require("../utils/sendMail");
 const sendToken = require("../utils/jwtToken");
+const e = require("express");
 
 router.post("/create-user", upload.single("file"), async (req, res, next) => {
   const { name, email, password } = req.body;
@@ -33,7 +34,6 @@ router.post("/create-user", upload.single("file"), async (req, res, next) => {
   });
 
   const activationToken = createActivationToken(user);
-
   const activationURL = `${process.env.CLIENT_URL}/activation/${activationToken}`;
 
   try{
@@ -61,30 +61,40 @@ const createActivationToken = (user) => {
 
 //activate account
 router.post("/activation", async (req, res, next) => {
-  const { token } = req.body;
-  if (!token) {
+  const { activation_token } = req.body;
+  if (!activation_token) {
     return next(new ErrorHandler(400, "Invalid token"));
   }
-  jwt.verify(token, process.env.JWT_ACCOUNT_ACTIVATION, async (error, decoded) => {
-    if (error) {
-      return next(new ErrorHandler(400, "Expired token, pls signup again"));
-    }
+  try{
+    const decoded = jwt.verify(activation_token, process.env.JWT_ACCOUNT_ACTIVATION, async (err, decoded) => {
+      if (err) {
+        return next(new ErrorHandler(400, "Expired token"));
+      }
+      const { name, email, password } = decoded.user;
+      if (!name || !email || !password) {
+        return next(new ErrorHandler(400, "Invalid token data"));
+      }
 
-    const { name, email, password } = decoded.user;
-    const user = new User({
-      name,
-      email,
-      password
+      let user = await User.findOne({ email });
+      if (user) {
+        return next(new ErrorHandler(400, "User already exists"));
+      }
+
+    user = new User({
+        name,
+        email,
+        password,
+      });
+      await user.save();
+
+      sendToken(user, 201, res);
+
     });
+  }
+  catch (error) {
+    return next(new ErrorHandler(400, "Expired token"));
+  }
 
-    sendToken(user, 201, res);
-
-    await user.save();
-
-    res.status(201).json({
-      message: "Account activated successfully",
-    });
-  });
 });
 
 

@@ -1,18 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
 function ActivationPage() {
   const { activation_token } = useParams();
   const [error, setError] = useState(false);
+  const hasRun = useRef(false);
 
   useEffect(() => {
-    if (activation_token) {
+    if (activation_token && !hasRun.current) {
+      hasRun.current = true; // the request has been made
       const activationEmail = async () => {
         try {
           const res = await axios.post(
             process.env.REACT_APP_SERVER_URL + "/user/activation",
-            { activation_token }
+            { activation_token },
+            { retry: 1 }
           );
           console.log(res);
         } catch (error) {
