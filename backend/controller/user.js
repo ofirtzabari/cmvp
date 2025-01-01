@@ -19,14 +19,14 @@ router.post("/create-user", upload.single("file"), async (req, res, next) => {
 
   if (userEmail) {
     //TODO: delete the file if user already exists
-    return next(new ErrorHandler(400, "User already exists"));
+    res.status(400).json({ message: "User already exists" });
+    return next(new ErrorHandler("User already exists", 400));
   }
 // TODO: uncomment the following code and make it work
 //   const fileName = req.file.filename;
 //   const fileURL = path.join(fileName);
 //   const avatar = fileURL;
 
-  console.log("test");
   const user = new User({
     name,
     email,
@@ -47,7 +47,7 @@ router.post("/create-user", upload.single("file"), async (req, res, next) => {
     });
   }
   catch (error) {
-    return next(new ErrorHandler(400, error.message));
+    return next(new ErrorHandler(error.message, 400));
   }
   
 });
@@ -63,21 +63,21 @@ const createActivationToken = (user) => {
 router.post("/activation", async (req, res, next) => {
   const { activation_token } = req.body;
   if (!activation_token) {
-    return next(new ErrorHandler(400, "Invalid token"));
+    return next(new ErrorHandler("Invalid token", 400));
   }
   try{
     const decoded = jwt.verify(activation_token, process.env.JWT_ACCOUNT_ACTIVATION, async (err, decoded) => {
       if (err) {
-        return next(new ErrorHandler(400, "Expired token"));
+        return next(new ErrorHandler("Expired token", 400));
       }
       const { name, email, password } = decoded.user;
       if (!name || !email || !password) {
-        return next(new ErrorHandler(400, "Invalid token data"));
+        return next(new ErrorHandler("Invalid token data", 400));
       }
 
       let user = await User.findOne({ email });
       if (user) {
-        return next(new ErrorHandler(400, "User already exists"));
+        return next(new ErrorHandler("User already exists", 400));
       }
 
     user = new User({
@@ -92,7 +92,7 @@ router.post("/activation", async (req, res, next) => {
     });
   }
   catch (error) {
-    return next(new ErrorHandler(400, "Expired token"));
+    return next(new ErrorHandler("Expired token", 400));
   }
 
 });
