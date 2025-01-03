@@ -13,7 +13,11 @@ app.use((req, res, next) => {
 });
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: process.env.CLIENT_URL,
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true
+}));
 app.use(ErrorHandler);
 app.use(express.json());
 app.use(cookieParser());

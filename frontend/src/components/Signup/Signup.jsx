@@ -4,6 +4,7 @@ import styles from "../../styles/styles.js";
 import { Link } from "react-router-dom";
 import { RxAvatar } from "react-icons/rx";
 import axios from "axios";
+import { toast } from 'react-toastify';
 
 const Signup = () => {
   const [name, setName] = useState("");
@@ -23,10 +24,14 @@ const Signup = () => {
     axios
       .post(process.env.REACT_APP_SERVER_URL + "/user/create-user", formData, config)
       .then((res) => {
-        console.log(res);
+        toast.success(res.data.message);
+        setName("");
+        setEmail("")
+        setPassword("");
+        setAvatar(null);
       })
       .catch((err) => {
-        console.log(err);
+        toast.error(err.response.data.message);
       });
   };
 
