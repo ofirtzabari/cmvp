@@ -20,7 +20,7 @@ const Login = () => {
       toast.success("Login successfully");
       navigate("/");
     }).catch((err) => {
-      toast.error(err);
+      toast.error("Invalid email or password");
     });
       ;
   };

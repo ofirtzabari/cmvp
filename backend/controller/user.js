@@ -11,6 +11,9 @@ const { send } = require("process");
 const sendMail = require("../utils/sendMail");
 const sendToken = require("../utils/jwtToken");
 const e = require("express");
+const { isAuthenticatedUser } = require("../middleware/auth");
+const catchAsyncErrors = require("../middleware/catchAsyncErrors");
+
 
 router.post("/create-user", upload.single("file"), async (req, res, next) => {
   const { name, email, password } = req.body;
@@ -102,11 +105,13 @@ router.post("/login-user", async (req, res, next) => {
   const { email, password } = req.body;
   console.log(email, password);
   if (!email || !password) {
+    res.status(400).json({ message: "Please enter email and password" });
     return next(new ErrorHandler("Please enter email and password", 400));
   }
 
   const user = await User.findOne({ email }).select("+password");
   if (!user) {
+    res.status(401).json({ message: "Invalid email or password" });
     return next(new ErrorHandler("Invalid email or password", 401));
   }
 
@@ -116,5 +121,18 @@ router.post("/login-user", async (req, res, next) => {
   }
   sendToken(user, 200, res);
 });
+
+//LOAD USER
+router.get("/getuser", isAuthenticatedUser, catchAsyncErrors( async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user.id);
+    res.status(200).json({
+    success: true,
+    user,
+  });
+} catch (error) {
+  return next(new ErrorHandler(error.message, 500));
+}
+}));
 
 module.exports = router;

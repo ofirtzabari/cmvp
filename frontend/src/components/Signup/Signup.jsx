@@ -26,7 +26,7 @@ const Signup = () => {
       .then((res) => {
         toast.success(res.data.message);
         setName("");
-        setEmail("");
+        setEmail("")
         setPassword("");
         setAvatar(null);
       })

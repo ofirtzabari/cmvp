@@ -15,7 +15,6 @@ app.use((req, res, next) => {
 // Middleware
 app.use(cors({
   origin: process.env.CLIENT_URL,
-  methods: ["GET", "POST"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true
 }));
