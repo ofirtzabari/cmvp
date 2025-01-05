@@ -31,7 +31,7 @@ const Signup = () => {
         setAvatar(null);
       })
       .catch((err) => {
-        toast.error(err.response.data.message);
+        toast.error("somting went wrong");
       });
   };
 
@@ -41,8 +41,8 @@ const Signup = () => {
   };
 
   return (
-    <div className="min-h-screeen flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-      <div className="w-6/12 sm:mx-auto sm:wi-full sm:max-w-md">
+    <div className="min-h-screeen flex flex-col justify-center items-center py-12 sm:px-6 lg:px-8">
+      <div className="w-9/12 sm:mx-auto sm:w-full sm:max-w-md">
         <h2 className="mt-6 text-center text-3xl font-extrabold text-white">
           Register your account
         </h2>
