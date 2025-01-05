@@ -3,6 +3,7 @@ import styles from "../../styles/styles";
 import { Link } from "react-router-dom";
 import { productData } from "../../static/data";
 import { AiOutlineSearch } from "react-icons/ai";
+import { IoIosArrowForward } from "react-icons/io";
 
 const Header = () => {
   const [searchTerm, setSearchTerm] = React.useState("");
@@ -18,6 +19,7 @@ const Header = () => {
         return product.name.toLowerCase().includes(term.toLowerCase());
       });
     setSearchData(fillterProducts);
+    console.log(searchData);
   };
 
   return (
@@ -36,23 +38,34 @@ const Header = () => {
             value={searchTerm}
             onChange={handleSearchChange}
           />
-          <AiOutlineSearch size={30} className="absolute right-2 top-1.5 cursor-pointer"></AiOutlineSearch>
-          { searchData ? (
-            <div className="absolute min-h-[30vh] bg-slate-400 shadow-sm-2  p-4 rounded-xl m-2">
-                {searchData.map((product) => (
-                    <div key={product.id} className="flex items-center justify-between my-2">
-                        <img src={product.image_Url[0].url} alt="" className="h-10 w-10" />
-                        <Link to={`/product/${product.id}`}>{product.name}</Link>
-                    </div>
-                ))}
+          <AiOutlineSearch
+            size={30}
+            className="absolute right-2 top-1.5 cursor-pointer"
+          ></AiOutlineSearch>
+          {searchData ? (
+            <div className="absolute  bg-slate-400 shadow-sm-2  p-4 rounded-xl m-2">
+              {searchData.map((product) => (
+                <div
+                  key={product.id}
+                  className="flex items-center justify-between my-2"
+                >
+                  <img
+                    src={product.image_Url[0].url}
+                    alt=""
+                    className="h-10 w-10"
+                  />
+                  <Link to={`/product/${product.id}`}>{product.name}</Link>
+                </div>
+              ))}
             </div>
-          ) : null
-            
-          
-          }
-          {/* <button className="absolute right-0 top-0 bottom-0 bg-indigo-600 text-white rounded-r-lg px-4">
-            Search
-          </button> */}
+          ) : null}
+        </div>
+        <div className={styles.button }>
+          <Link to="/seller">
+          <h1 className="text-white flex items-center">
+            Become Seller <IoIosArrowForward className="ml-1" />
+          </h1>
+          </Link>
         </div>
       </div>
     </div>
