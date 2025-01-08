@@ -2,7 +2,7 @@ import React from "react";
 import styles from "../../styles/styles";
 import { Link } from "react-router-dom";
 import { productData } from "../../static/data";
-import { AiOutlineSearch } from "react-icons/ai";
+import { AiOutlineHeart, AiOutlineSearch } from "react-icons/ai";
 import { IoIosArrowForward } from "react-icons/io";
 import { BiMenuAltLeft } from "react-icons/bi";
 import { IoIosArrowDown } from "react-icons/io";
@@ -115,6 +115,18 @@ const Header = ({ activeHeading }) => {
           </div>
           <div className={`${styles.normalFlex} `}>
             <Navbar active={activeHeading} />
+          </div>
+          <div>
+            <div className={styles.normalFlex}>
+              <div className="relative cursor-pointer mr-[15px]">
+                <AiOutlineHeart
+                 size={30}
+                 color="rgb(255 255 255 / 83%)" />
+                 <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full px-1">
+                    0
+                 </span>
+              </div>
+            </div>
           </div>
         </div>
       </div>

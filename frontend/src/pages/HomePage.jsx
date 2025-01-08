@@ -4,7 +4,7 @@ import Header from '../components/Layout/Header.jsx'
 function HomePage() {
   return (
     <div className='w-full h-screen bg-gray-700'>
-        <Header actitiveHeading={1}/>
+        <Header activeHeading={1}/>
     </div>
   )
 }
