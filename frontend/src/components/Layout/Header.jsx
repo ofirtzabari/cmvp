@@ -2,13 +2,14 @@ import React from "react";
 import styles from "../../styles/styles";
 import { Link } from "react-router-dom";
 import { productData } from "../../static/data";
-import { AiOutlineHeart, AiOutlineSearch } from "react-icons/ai";
+import { AiOutlineHeart, AiOutlineSearch, AiOutlineShoppingCart } from "react-icons/ai";
 import { IoIosArrowForward } from "react-icons/io";
 import { BiMenuAltLeft } from "react-icons/bi";
 import { IoIosArrowDown } from "react-icons/io";
 import DropDown from "./DropDown.jsx";
 import { categoriesData } from "../../static/data";
 import Navbar from "./Navbar.jsx";
+import { CgProfile } from "react-icons/cg";
 
 const Header = ({ activeHeading }) => {
   const [searchTerm, setSearchTerm] = React.useState("");
@@ -116,7 +117,7 @@ const Header = ({ activeHeading }) => {
           <div className={`${styles.normalFlex} `}>
             <Navbar active={activeHeading} />
           </div>
-          <div>
+          <div className="flex">
             <div className={styles.normalFlex}>
               <div className="relative cursor-pointer mr-[15px]">
                 <AiOutlineHeart
@@ -125,6 +126,23 @@ const Header = ({ activeHeading }) => {
                  <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full px-1">
                     0
                  </span>
+              </div>
+            </div>
+            <div className={styles.normalFlex}>
+              <div className="relative cursor-pointer mr-[15px]">
+                <AiOutlineShoppingCart
+                 size={30}
+                 color="rgb(255 255 255 / 83%)" />
+                 <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full px-1">
+                    0
+                 </span>
+              </div>
+            </div>
+            <div className={styles.normalFlex}>
+              <div className="relative cursor-pointer mr-[15px]">
+                <CgProfile
+                 size={30}
+                 color="rgb(255 255 255 / 83%)" />
               </div>
             </div>
           </div>
