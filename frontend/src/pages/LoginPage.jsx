@@ -3,7 +3,7 @@ import Login from '../components/Login/Login.jsx'
 
 const LoginPage = () => {
   return (
-    <div className='w-full h-screen bg-gray-700' >
+    <div className='w-full h-screen bg-gray-700 ' >
       <Login/>
     </div>
   )
