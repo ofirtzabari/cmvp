@@ -5,10 +5,10 @@ import Categories from '../components/Route/Categories/Categories.jsx'
 
 function HomePage() {
   return (
-    <div className='w-12/13  '>
+    <div>
         <Header activeHeading={1}/>
         <Hero/>
-        <Categories/>
+        <Categories className="hidden"/>
     </div>
   )
 }

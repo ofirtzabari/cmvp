@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 const Categories = () => {
   const Navigate = useNavigate();
   return (
-    <>
+    <div className="w-11/12 mx-auto">
       <div className={`${styles.section} hidden sm:block`}>
         <div className="branding my-12 flex justify-between w-full shadow-sm bg-white p-5 rounded-sm ">
           {brandingData &&
@@ -48,7 +48,7 @@ const Categories = () => {
             })}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
