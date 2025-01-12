@@ -3,7 +3,7 @@ import Signup from '../components/Signup/Signup.jsx'
 
 const SignupPage = () => {
   return (
-    <div className='w-full h-screen bg-gray-700'>
+    <div className='w-full h-screen'>
         <Signup/>
     </div>
   )
