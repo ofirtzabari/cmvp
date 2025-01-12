@@ -2,7 +2,11 @@ import React from "react";
 import styles from "../../styles/styles";
 import { Link } from "react-router-dom";
 import { productData } from "../../static/data";
-import { AiOutlineHeart, AiOutlineSearch, AiOutlineShoppingCart } from "react-icons/ai";
+import {
+  AiOutlineHeart,
+  AiOutlineSearch,
+  AiOutlineShoppingCart,
+} from "react-icons/ai";
 import { IoIosArrowForward } from "react-icons/io";
 import { BiMenuAltLeft } from "react-icons/bi";
 import { IoIosArrowDown } from "react-icons/io";
@@ -40,7 +44,7 @@ const Header = ({ activeHeading }) => {
 
   return (
     <div className={styles.section}>
-      <div className="hidden 800px:h-[50px] 800px:my-[20px] 800px:flex items-center justify-between">
+      <div className="800px:h-[50px] 800px:my-[20px] 800px:flex items-center justify-between">
         <div>
           <Link to="/">
             <img src="/logo.jpg" alt="logo" className="h-[75px] rounded-full" />
@@ -87,7 +91,7 @@ const Header = ({ activeHeading }) => {
       <div
         className={`${
           active ? "shadow-sm fixed top-0 left-0 w-full z-10" : null
-        } transition hidden 800px:block items-center justify-between bg-blue-400 h-[50px]`}
+        } transition 800px:block items-center justify-between bg-blue-400 h-[50px]`}
       >
         <div
           className={
@@ -97,7 +101,7 @@ const Header = ({ activeHeading }) => {
             " justify-between"
           }
         >
-          <div className="relative h-[40px] mt-[10px] w-[270px] hidden 1000px:block">
+          <div className="relative h-[40px] mt-[10px] w-[270px] hidden 1000px:block ml-10">
             <BiMenuAltLeft size={30} className="absolute top-2 left-2 " />
             <button className="h-[100%] w-full flex justify-between items-center pl-10 bg-white font-sans text-lg font-[500] select-none rounded-t-md">
               All Categories
@@ -120,29 +124,28 @@ const Header = ({ activeHeading }) => {
           <div className="flex">
             <div className={styles.normalFlex}>
               <div className="relative cursor-pointer mr-[15px]">
-                <AiOutlineHeart
-                 size={30}
-                 color="rgb(255 255 255 / 83%)" />
-                 <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full px-1">
-                    0
-                 </span>
+                <AiOutlineHeart size={30} color="rgb(255 255 255 / 83%)" />
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full px-1">
+                  0
+                </span>
               </div>
             </div>
             <div className={styles.normalFlex}>
               <div className="relative cursor-pointer mr-[15px]">
                 <AiOutlineShoppingCart
-                 size={30}
-                 color="rgb(255 255 255 / 83%)" />
-                 <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full px-1">
-                    0
-                 </span>
+                  size={30}
+                  color="rgb(255 255 255 / 83%)"
+                />
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full px-1">
+                  0
+                </span>
               </div>
             </div>
             <div className={styles.normalFlex}>
               <div className="relative cursor-pointer mr-[15px]">
-                <CgProfile
-                 size={30}
-                 color="rgb(255 255 255 / 83%)" />
+                <Link to="/login">
+                  <CgProfile size={30} color="rgb(255 255 255 / 83%)" />
+                </Link>
               </div>
             </div>
           </div>
