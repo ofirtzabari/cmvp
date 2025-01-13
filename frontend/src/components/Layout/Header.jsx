@@ -100,6 +100,7 @@ const Header = ({ activeHeading }) => {
             styles.normalFlex +
             " justify-between"
           }
+          onClick={() => setDropDown(!dropDown)}
         >
           <div className="relative h-[40px] mt-[10px] w-[270px] hidden 1000px:block ml-10">
             <BiMenuAltLeft size={30} className="absolute top-2 left-2 " />
