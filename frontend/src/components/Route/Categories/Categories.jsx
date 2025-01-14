@@ -35,13 +35,13 @@ const Categories = () => {
               return (
                 <div
                   className="w-full h-[100px] flex items-center justify-between cursor-pointer overflow-hidden"
-                  key={index.id}
+                  key={index}
                   onClick={() => handleSubmit(i)}
                 >
                   <h5 className="text-[18px] leading-[1.3]">{i.title}</h5>
                   <img
                     src={i.image_Url}
-                    alt=""
+                    alt={i.title}
                     className="h-[120px] w-[120px] object-cover"
                   />
                 </div>
